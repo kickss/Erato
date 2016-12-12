@@ -1,0 +1,14 @@
+c:\Users\buimi\documents\visual studio 2015\Projects\Sale\Sale.DAL\bin\Debug\Sale.DAL.dll
+c:\Users\buimi\documents\visual studio 2015\Projects\Sale\Sale.DAL\bin\Debug\Sale.DAL.pdb
+c:\Users\buimi\documents\visual studio 2015\Projects\Sale\Sale.DAL\obj\Debug\Sale.DAL.csprojResolveAssemblyReference.cache
+c:\Users\buimi\documents\visual studio 2015\Projects\Sale\Sale.DAL\obj\Debug\Sale.DAL.dll
+c:\Users\buimi\documents\visual studio 2015\Projects\Sale\Sale.DAL\obj\Debug\Sale.DAL.pdb
+D:\Source\Sale\Sale.DAL\bin\Debug\Sale.DAL.dll
+D:\Source\Sale\Sale.DAL\bin\Debug\Sale.DAL.pdb
+D:\Source\Sale\Sale.DAL\obj\Debug\Sale.DAL.dll
+D:\Source\Sale\Sale.DAL\obj\Debug\Sale.DAL.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.DAL\bin\Debug\Sale.DAL.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.DAL\bin\Debug\Sale.DAL.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.DAL\obj\Debug\Sale.DAL.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.DAL\obj\Debug\Sale.DAL.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.DAL\obj\Debug\Sale.DAL.csprojResolveAssemblyReference.cache

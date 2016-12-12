@@ -1,0 +1,4 @@
+D:\Source\Sale\Sale.DAL\bin\Release\Sale.DAL.dll
+D:\Source\Sale\Sale.DAL\bin\Release\Sale.DAL.pdb
+D:\Source\Sale\Sale.DAL\obj\Release\Sale.DAL.dll
+D:\Source\Sale\Sale.DAL\obj\Release\Sale.DAL.pdb
