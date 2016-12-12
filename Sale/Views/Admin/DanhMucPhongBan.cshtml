@@ -1,0 +1,495 @@
+﻿
+@{
+    ViewBag.Title = "DanhMucPhongBan";
+    Layout = "~/Views/Shared/_AdminPage.cshtml";
+}
+
+@section Breadcrum{
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-list"></i>
+                Từ điển danh mục
+            </li>
+            <li class="active">Danh mục Phòng ban</li>
+        </ul><!-- /.breadcrumb -->
+    </div>
+}
+
+<style>
+    .label-error {
+        padding: 7px;
+        margin-top: 4px;
+        font-style: italic;
+    }
+
+    .label-bold {
+        font-weight: bold;
+    }
+
+    .canhgiua {
+        text-align: center;
+    }
+</style>
+
+<div class="invisible" id="main-widget-container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
+            <div class="widget-box">
+                <div class="widget-header" style="color:#fff; background:#5090C1;">
+                    <h4 class="widget-title">Tạo chức vụ</h4>
+
+                    <span class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtMaPhongBan" class="label-bold">Mã phòng ban</label>
+                            <input class="form-control" id="txtMaPhongBan" name="txtMaPhongBan" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtMaPhongBan-error" class="label-error alert-danger" for="txtMaPhongBan" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập mã phòng ban!</label>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtTenPHONGBAN" class="label-bold">Tên phòng ban</label>
+                            <input class="form-control" id="txtTenPhongBan" name="txtTenPhongBan" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtTenPhongBan-error" class="label-error alert-danger" for="txtTenPhongBan" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập tên phòng ban!</label>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both; text-align:center;">
+                            <button type="button" id="btnLuuPhongBan" onclick="INSERT_PHONGBAN();" class="btn btn-sm btn-info"><i class="ace-icon fa fa-save bigger-110"></i> Tạo Phòng ban</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="widget-box">
+                <div class="widget-header" style="color:#fff; background:#5090C1;">
+                    <h4 class="widget-title">Danh sách phòng ban</h4>
+
+                    <span class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div id="grid_DS_PHONGBAN"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalSua">
+    <div class="modal-dialog" style="width:40%;">
+        <div class="modal-content">
+            <div class="modal-header" style="color:#fff; background-color:#37619C;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CẬP NHẬT PHÒNG BAN</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:right" width="30%">
+                                    Mã phòng ban:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control input-sm" id="txtPHONGBAN_ID_Upd" name="txtPHONGBAN_ID_Upd" type="hidden">
+                                        <input class="form-control" id="txtMAPHONGBANUpd" name="txtMAPHONGBANUpd" type="text" onkeyup="TestError(this.id);">
+                                        <label id="txtMAPHONGBANUpd-error" class="label-error alert-danger" for="txtMAPHONGBANUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập mã chức vụ!</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right">
+                                    Tên phòng ban:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control" id="txtTENPHONGBANUpd" name="txtTENPHONGBANUpd" type="text" onkeyup="TestError(this.id);">
+                                        <label id="txtTENPHONGBANUpd-error" class="label-error alert-danger" for="txtTENPHONGBANUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập tên chức vụ!</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label style="float:left;" id="myModalSua-IsSuccess"></label>
+                <button type="button" class="btn btn-sm btn-info" onclick="UPDATE_PHONGBAN()"><i class="ace-icon fa fa-check bigger-70"></i> Cập nhật</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="ace-icon fa fa-close bigger-70"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalXoa">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="color:#fff; background-color:#37619C;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">XÓA CHỨC VỤ</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="PHONGBAN_ID_Del" />
+                <span id="alertxoa">Bạn có muốn xóa Chức vụ này?</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-info" onclick="DELETE_PHONGBAN()"><i class="ace-icon fa fa-trash bigger-40"></i> Xóa</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="ace-icon fa fa-close bigger-70"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script type="text/javascript">
+	    if('ontouchstart' in document.documentElement) document.write("<script src='../Layout/Admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
+
+    <script type="text/javascript">
+			jQuery(function($) {
+				// scrollables
+				$('.scrollable').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll({
+						size: $this.attr('data-size') || 100,
+						//styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+					});
+				});
+				$('.scrollable-horizontal').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll(
+					  {
+						horizontal: true,
+						styleClass: 'scroll-top',//show the scrollbars on top(default is bottom)
+						size: $this.attr('data-size') || 500,
+						mouseWheelLock: true
+					  }
+					).css({'padding-top': 12});
+				});
+
+				$(window).on('resize.scroll_reset', function() {
+					$('.scrollable-horizontal').ace_scroll('reset');
+				});
+
+
+				$('#id-checkbox-vertical').prop('checked', false).on('click', function() {
+					$('#widget-toolbox-1').toggleClass('toolbox-vertical')
+					.find('.btn-group').toggleClass('btn-group-vertical')
+					.filter(':first').toggleClass('hidden')
+					.parent().toggleClass('btn-toolbar')
+				});
+
+				///////////////////////
+
+				//when a widget is shown/hidden/closed, we save its state for later retrieval
+				$(document).on('shown.ace.widget hidden.ace.widget closed.ace.widget', '.widget-box', function(event) {
+					var widgets = ace.data.get('demo', 'widget-state', true);
+					if(widgets == null) widgets = {}
+
+					var id = $(this).attr('id');
+					widgets[id] = event.type;
+					ace.data.set('demo', 'widget-state', widgets, null, true);
+				});
+
+
+				(function() {
+					//restore widget order
+					var container_list = ace.data.get('demo', 'widget-order', true);
+					if(container_list) {
+						for(var container_id in container_list) if(container_list.hasOwnProperty(container_id)) {
+
+							var widgets_inside_container = container_list[container_id];
+							if(widgets_inside_container.length == 0) continue;
+
+							for(var i = 0; i < widgets_inside_container.length; i++) {
+								var widget = widgets_inside_container[i];
+								$('#'+widget).appendTo('#'+container_id);
+							}
+
+						}
+					}
+
+
+					//restore widget state
+					var widgets = ace.data.get('demo', 'widget-state', true);
+					if(widgets != null) {
+						for(var id in widgets) if(widgets.hasOwnProperty(id)) {
+							var state = widgets[id];
+							var widget = $('#'+id);
+							if
+							(
+								(state == 'shown' && widget.hasClass('collapsed'))
+								||
+								(state == 'hidden' && !widget.hasClass('collapsed'))
+							)
+							{
+								widget.widget_box('toggleFast');
+							}
+							else if(state == 'closed') {
+								widget.widget_box('closeFast');
+							}
+						}
+					}
+
+
+					$('#main-widget-container').removeClass('invisible');
+
+
+					//reset saved positions and states
+					$('#reset-widgets').on('click', function() {
+						ace.data.remove('demo', 'widget-state');
+						ace.data.remove('demo', 'widget-order');
+						document.location.reload();
+					});
+
+				})();
+
+			});
+    </script>
+}
+
+<script>
+    var Error = false;
+
+    var result = [];
+    var txtArray = [];
+    var txtArrayUpdate = [];
+
+    txtArray.push('txtMaPhongBan', 'txtTenPhongBan');
+    txtArrayUpdate.push('txtMAPHONGBANUpd', 'txtTENPHONGBANUpd');
+
+    function INSERT_PHONGBAN() {
+        ShowHideError(txtArray);
+        Error = ErrorBool(txtArray);
+
+        if (Error == true) {
+            $('#loading').fadeIn();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/DanhMucPhongBan?t=' + Math.random(),
+                data: {
+                    MAPHONGBAN: $('#txtMaPhongBan').val(),
+                    TENPHONGBAN: $('#txtTenPhongBan').val(),
+                    LOAI: 'INSERT'
+                },
+                //async: true,
+                dataType: 'text',
+                success: function (html) {
+                    $('#loading').fadeOut();
+                    if (html == "...") {
+                        $(':input')
+                            .removeAttr('checked')
+                            .removeAttr('selected')
+                            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+                            .val('');
+                        $('#grid_DS_PHONGBAN').data('kendoGrid').dataSource.read();
+                        ShowAlert("Thông báo", 'Tạo Phòng ban thành công!');
+                    }
+                    else {
+                        ShowAlert("Thông báo", html);
+                    }
+
+                },
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    $('#loading').fadeOut();
+                    ShowAlert("Thông báo", err);
+                });
+        }
+    }
+
+    function OnLoadGridPHONGBAN() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Admin/Get_DS_PHONGBAN",
+                    type: 'GET',
+                    dataType: "json"
+                }
+            },
+            pageSize: 100,
+            schema: {
+                model: {
+                    id: "PHONGBAN_ID",
+                    fields: {
+                        PHONGBAN_ID: { type: "number", editable: false, nullable: true },
+                        MAPHONGBAN: { type: "string", editable: true, nullable: true },
+                        TENPHONGBAN: { type: "string", editable: true, nullable: true }
+                    }
+                }
+            }
+        });
+
+        $("#grid_DS_PHONGBAN").kendoGrid({
+            dataSource: dataSource,
+            noRecords: true,
+            messages: {
+                noRecords: "Không có Menu!"
+            },
+            columns: [
+            {
+                field: "PHONGBAN_ID",
+                title: "PHÒNG BAN ID",
+                width: 70,
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                },
+            },
+            {
+                field: "MAPHONGBAN",
+                title: "MÃ PHÒNG BAN",
+                width: 150,
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                },
+                hidden: true
+            },
+            {
+                field: "TENPHONGBAN",
+                title: "TÊN PHÒNG BAN",
+                width: 300,
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                width: 60,
+                template: '<a onclick="ShowUpdatePHONGBAN(\'#= PHONGBAN_ID #\');" class="btn btn-sm btn-info"><i class="ace-icon fa fa-edit bigger-40"></i> SỬA</a>',
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;"
+                }
+            },
+            {
+                width: 60,
+                template: '<a onclick="ShowDeletePHONGBAN(\'#= PHONGBAN_ID #\');" class="btn btn-sm btn-danger"><i class="ace-icon fa fa-trash bigger-40"></i> Xóa</a>',
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            }]
+        }).data("kendoGrid");
+    }
+
+    function ShowUpdatePHONGBAN(PHONGBAN_ID) {
+        HideError(txtArrayUpdate);
+        var grid_data = $("#grid_DS_PHONGBAN").data("kendoGrid"),
+        data = grid_data.dataSource.data();
+
+        var res = $.grep(data, function (d) {
+            return d.PHONGBAN_ID == PHONGBAN_ID;
+        });
+
+        $('#txtPHONGBAN_ID_Upd').val(PHONGBAN_ID);
+        $('#txtMAPHONGBANUpd').val(res[0].MAPHONGBAN);
+        $('#txtTENPHONGBANUpd').val(res[0].TENPHONGBAN);
+        IsSucess('myModalSua', '');
+        $('#myModalSua').appendTo("body").modal('show');
+    }
+
+    function UPDATE_PHONGBAN() {
+            $('#loading').fadeIn();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/DanhMucPhongBan?t=' + Math.random(),
+                data: {
+                    PHONGBAN_ID: $('#txtPHONGBAN_ID_Upd').val(),
+                    MAPHONGBAN: $('#txtMAPHONGBANUpd').val(),
+                    TENPHONGBAN: $("#txtTENPHONGBANUpd").val(),
+                    LOAI: 'UPDATE'
+                },
+                //async: true,
+                dataType: 'text',
+                success: function (html) {
+                    $('#loading').fadeOut();
+                    if (html == "...") {
+                        $('#grid_DS_PHONGBAN').data('kendoGrid').dataSource.read();
+                        IsSucess('myModalSua', 'Cập nhật thành công!');
+                    }
+                    else {
+                        IsSucess('myModalSua', html);
+                    }
+
+                },
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    $('#loading').fadeOut();
+                    IsSucess('myModalSua', err);
+                });
+    }
+
+    function ShowDeletePHONGBAN(PHONGBAN_ID) {
+        $('#PHONGBAN_ID_Del').val(PHONGBAN_ID);
+
+        $('#myModalXoa').appendTo("body").modal('show');
+    }
+
+    function DELETE_PHONGBAN() {
+        $('#myModalXoa').modal('hide');
+        $('#loading').fadeIn();
+
+        var PHONGBAN_ID = $('#PHONGBAN_ID_Del').val();
+        var LOAI = 'DELETE';
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/DanhMucPhongBan?t=' + Math.random(),
+            data: {
+                PHONGBAN_ID: PHONGBAN_ID,
+                LOAI: LOAI
+            },
+            //async: true,
+            dataType: 'text',
+            success: function (html) {
+                $('#loading').fadeOut();
+                if (html == "...") {
+                    $('#grid_DS_PHONGBAN').data('kendoGrid').dataSource.read();
+                    IsSucess('myModalXoa', 'Xóa thành công!');
+                }
+                else {
+                    IsSucess('myModalXoa', html);
+                }
+            }
+        })
+        .fail(
+            function (jqXHR, textStatus, err) {
+                $('#loading').fadeOut();
+                IsSucess('myModalXoa', err);
+            });
+    }
+
+    $(function () {
+        HideError(txtArray);
+
+        OnLoadGridPHONGBAN();
+    });
+</script>
+

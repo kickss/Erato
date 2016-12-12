@@ -1,0 +1,387 @@
+﻿
+@{
+    ViewBag.Title = "DinhNghiaDanhMuc";
+    Layout = "~/Views/Shared/_AdminPage.cshtml";
+}
+
+@section css{
+    <link href="~/Scripts/dist/css/bootstrap-select.css" rel="stylesheet">
+}
+
+@section Breadcrum{
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-pencil-square-o"></i>
+                Quản trị Website
+            </li>
+            <li class="active">Cấu hình Menu</li>
+        </ul><!-- /.breadcrumb -->
+    </div>
+}
+
+<style>
+    .label-error{
+        padding:7px;
+        margin-top:4px;
+        font-style:italic;
+    }
+
+    .label-bold{
+        font-weight:bold;
+    }
+
+    .canhgiua {
+        text-align: center;
+    }
+</style>
+
+<div class="invisible" id="main-widget-container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 widget-container-col" id="widget-container-col-1">
+            <div class="widget-box widget-color-blue2" id="widget-box-1">
+                <div class="widget-header">
+                    <h5 class="widget-title">Tạo Menu Cha</h5>
+
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtMaQuyenCha" class="label-bold">Mã menu cha</label>
+                            <input class="form-control" id="txtMaQuyenCha" name="txtMaQuyenCha" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtMaQuyenCha-error" class="label-error alert-danger" for="txtMaQuyenCha" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập mã menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtTenQuyenCha" class="label-bold">Tên menu cha</label>
+                            <input class="form-control" id="txtTenQuyenCha" name="txtTenQuyenCha" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtTenQuyenCha-error" class="label-error alert-danger" for="txtTenQuyenCha" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập tên menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtSTTCha" class="label-bold">Thứ tự</label>
+                            <input class="form-control" style="width:70px; text-align:right;" id="txtSTTCha" name="txtSTTCha" type="number" min="0" onchange="TestError(this.id);">
+                            <label id="txtSTTCha-error" class="label-error alert-danger" for="txtSTTCha"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập thứ tự menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">                       
+                            <label class="label-bold">Hiển thị</label>
+                            <label style="vertical-align:top;">
+                                <input id="chkEnableCha" name="chkEnableCha" class="ace ace-switch ace-switch-6" type="checkbox">
+                                <span class="lbl"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="clear:both; text-align:center;">
+                            <button type="button" id="btnLuuCha" onclick="INSERT_CHA();" class="btn btn-sm btn-info"><i class="ace-icon fa fa-save bigger-110"></i> Tạo Menu Cha</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 widget-container-col" id="widget-container-col-2">
+            <div class="widget-box widget-color-blue2" id="widget-box-2">
+                <div class="widget-header">
+                    <h5 class="widget-title">Tạo Menu Con</h5>
+
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div lass="form-group" style="clear:both;">
+                            <label for="cmbMenuCha" class="label-bold">Menu Cha</label>
+                            <select id="cmbMenuCha" class="selectpicker form-control" data-live-search="true"></select>
+                            <label id="cmbMenuCha-error" class="label-error alert-danger" for="cmbMenuCha" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng chọn menu cha!</label>
+                        </div>
+                        <br />
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtMaQuyenCon" class="label-bold">Mã menu con</label>
+                            <input class="form-control" id="txtMaQuyenCon" name="txtMaQuyenCon" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtMaQuyenCon-error" class="label-error alert-danger" for="txtMaQuyenCon" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập mã menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtTenQuyenCon" class="label-bold">Tên menu con</label>
+                            <input class="form-control" id="txtTenQuyenCon" name="txtTenQuyenCon" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtTenQuyenCon-error" class="label-error alert-danger" for="txtTenQuyenCon" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập tên menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtDuongDan" class="label-bold">Đường dẫn View</label>
+                            <input class="form-control" id="txtDuongDan" name="txtDuongDan" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtDuongDan-error" class="label-error alert-danger" for="txtDuongDan" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập đường dẫn View!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label for="txtSTTCon" class="label-bold">Thứ tự</label>
+                            <input class="form-control" style="width:70px; text-align:right;" id="txtSTTCon" name="txtSTTCon" type="number" min="0" onchange="TestError(this.id);">
+                            <label id="txtSTTCon-error" class="label-error alert-danger" for="txtSTTCon"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập thứ tự menu!</label>
+                        </div>
+
+                        <div class="form-group" style="clear:both;">
+                            <label class="label-bold">Hiển thị</label>
+                            <label style="vertical-align:top;">
+                                <input id="chkEnableCon" name="chkEnableCon" class="ace ace-switch ace-switch-6" type="checkbox">
+                                <span class="lbl"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="clear:both; text-align:center;">
+                            <button type="button" id="btnLuuCon" onclick="INSERT_CON();" class="btn btn-sm btn-info"><i class="ace-icon fa fa-save bigger-110"></i> Tạo Menu Con</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.span -->
+    </div><!-- /.row -->
+
+    <div class="hr hr-18 hr-double dotted"></div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-box">
+                <div class="widget-header" style="background:#5090C1; color:#fff;">
+                    <h5 class="widget-title">Danh sách Menu</h5>
+
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div id="grid_DS_MENU"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.span -->
+    </div><!-- /.row -->
+</div>
+
+<div class="modal fade" id="myModalSua">
+    <div class="modal-dialog" style="width:40%;">
+        <div class="modal-content">
+            <div class="modal-header" style="color:#fff; background-color:#37619C;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CẬP NHẬT MENU</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:right" width="20%">
+                                    Tên Menu:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control input-sm" id="txtQuyenIdUpd" name="txtQuyenIdUpd" type="hidden">
+                                        <input class="form-control" id="txtTenQuyenUpd" name="txtTenQuyenUpd" type="text" onkeyup="TestError(this.id);">
+                                        <label id="txtTenQuyenUpd-error" class="label-error alert-danger" for="txtTenQuyenUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập tên menu!</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right">
+                                    Đường dẫn:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control" id="txtDuongDanUpd" name="txtDuongDanUpd" type="text" onkeyup="TestError(this.id);">
+                                        <label id="txtDuongDanUpd-error" class="label-error alert-danger" for="txtDuongDanUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập đường dẫn View!</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right">
+                                    Thứ tự:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control" style="width:70px; text-align:right;" id="txtSTTUpd" name="txtSTTUpd" type="number" min="0" onchange="TestError(this.id);">
+                                        <label id="txtSTTUpd-error" class="label-error alert-danger" for="txtSTTUpd"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Vui lòng nhập thứ tự menu!</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right">
+                                    Hiển thị:
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label style="vertical-align:top;">
+                                            <input id="chkEnableUpd" name="chkEnableUpd" class="ace ace-switch ace-switch-6" type="checkbox">
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-info" onclick="UpdateMenu()"><i class="ace-icon fa fa-check bigger-70"></i> Cập nhật</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="ace-icon fa fa-close bigger-70"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalXoa">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="color:#fff; background-color:#37619C;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">XÓA MENU</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="QuyenChaIdDel" />
+                <input type="hidden" id="QuyenIdDel" />
+                <span id="alertxoa"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-info" onclick="XoaMenu()">Xóa</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script type="text/javascript">
+	    if('ontouchstart' in document.documentElement) document.write("<script src='../Layout/Admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
+
+    <script src="~/Scripts/dist/js/bootstrap-select.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+			jQuery(function($) {
+				// scrollables
+				$('.scrollable').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll({
+						size: $this.attr('data-size') || 100,
+						//styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+					});
+				});
+				$('.scrollable-horizontal').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll(
+					  {
+						horizontal: true,
+						styleClass: 'scroll-top',//show the scrollbars on top(default is bottom)
+						size: $this.attr('data-size') || 500,
+						mouseWheelLock: true
+					  }
+					).css({'padding-top': 12});
+				});
+
+				$(window).on('resize.scroll_reset', function() {
+					$('.scrollable-horizontal').ace_scroll('reset');
+				});
+
+
+				$('#id-checkbox-vertical').prop('checked', false).on('click', function() {
+					$('#widget-toolbox-1').toggleClass('toolbox-vertical')
+					.find('.btn-group').toggleClass('btn-group-vertical')
+					.filter(':first').toggleClass('hidden')
+					.parent().toggleClass('btn-toolbar')
+				});
+
+				///////////////////////
+
+				//when a widget is shown/hidden/closed, we save its state for later retrieval
+				$(document).on('shown.ace.widget hidden.ace.widget closed.ace.widget', '.widget-box', function(event) {
+					var widgets = ace.data.get('demo', 'widget-state', true);
+					if(widgets == null) widgets = {}
+
+					var id = $(this).attr('id');
+					widgets[id] = event.type;
+					ace.data.set('demo', 'widget-state', widgets, null, true);
+				});
+
+
+				(function() {
+					//restore widget order
+					var container_list = ace.data.get('demo', 'widget-order', true);
+					if(container_list) {
+						for(var container_id in container_list) if(container_list.hasOwnProperty(container_id)) {
+
+							var widgets_inside_container = container_list[container_id];
+							if(widgets_inside_container.length == 0) continue;
+
+							for(var i = 0; i < widgets_inside_container.length; i++) {
+								var widget = widgets_inside_container[i];
+								$('#'+widget).appendTo('#'+container_id);
+							}
+
+						}
+					}
+
+
+					//restore widget state
+					var widgets = ace.data.get('demo', 'widget-state', true);
+					if(widgets != null) {
+						for(var id in widgets) if(widgets.hasOwnProperty(id)) {
+							var state = widgets[id];
+							var widget = $('#'+id);
+							if
+							(
+								(state == 'shown' && widget.hasClass('collapsed'))
+								||
+								(state == 'hidden' && !widget.hasClass('collapsed'))
+							)
+							{
+								widget.widget_box('toggleFast');
+							}
+							else if(state == 'closed') {
+								widget.widget_box('closeFast');
+							}
+						}
+					}
+
+
+					$('#main-widget-container').removeClass('invisible');
+
+
+					//reset saved positions and states
+					$('#reset-widgets').on('click', function() {
+						ace.data.remove('demo', 'widget-state');
+						ace.data.remove('demo', 'widget-order');
+						document.location.reload();
+					});
+
+				})();
+
+			});
+</script>    
+}
+<script src="../Layout/Admin/assets/Functions/DinhNghiaDanhMuc.js" type="text/javascript"></script>
+

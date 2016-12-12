@@ -1,0 +1,871 @@
+﻿
+@{
+    ViewBag.Title = "QuanLyNguoiDung";
+    Layout = "~/Views/Shared/_AdminPage.cshtml";
+}
+
+
+@section css{
+    <link href="~/Scripts/dist/css/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Layout/Admin/assets/css/bootstrap-datepicker3.min.css" />
+}
+@section Breadcrum{
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-list"></i>
+                Từ điển danh mục
+            </li>
+            <li class="active">Quản trị người dùng</li>
+        </ul><!-- /.breadcrumb -->
+    </div>
+}
+
+<style>
+    .label-error {
+        padding: 7px;
+        margin-top: 4px;
+        font-style: italic;
+    }
+
+    .label-bold {
+        font-weight: bold;
+    }
+
+    .canhgiua {
+        text-align: center;
+    }
+</style>
+
+<div class="invisible" id="main-widget-container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 widget-container-col">
+            <div class="widget-box">
+                <div class="widget-header" style="color:#fff; background:#5090C1;">
+                    <h4 class="widget-title">Tạo thông tin nhân viên</h4>
+
+                    <span class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="form-group" style="clear:both;">
+                            <input placeholder="Mã nhân viên" class="form-control" id="txtMaNhanVien" name="txtMaNhanVien" type="text" onkeyup="TestError(this.id);">
+                            <label id="txtMaNhanVien-error" class="label-error alert-danger" for="txtMaNhanVien" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Mã nhân viên rỗng!</label>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <div>
+                                <input class="form-control" id="txtHo" placeholder="Họ" name="txtHo" type="text" style="float:left;width:45%;" onkeyup="TestError(this.id);">
+                                <input class="form-control" id="txtTen" placeholder="Tên" name="txtTen" type="text" style="float:right;width:54%;" onkeyup="TestError(this.id);">
+                            </div>
+                            <div>
+                                <label id="txtHo-error" class="label-error alert-danger" for="txtHo" style="float:left; clear:both;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Họ rỗng!</label>
+                                <label id="txtTen-error" class="label-error alert-danger" for="txtTen" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Tên rỗng!</label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <div class="input-group">
+                                <input class="form-control date-picker" placeholder="Ngày sinh" onkeyup="TestError(this.id);" id="dateNgaySinh" type="text" style="text-align:right;" data-date-format="dd/mm/yyyy" />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                            <label id="dateNgaySinh-error" class="label-error alert-danger" for="dateNgaySinh" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Ngày sinh rỗng!</label>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;text-align:center;">
+                            <label>
+                                <input id="chkNam" name="gioitinh" type="radio" class="ace input-lg" /><span class="lbl bigger-120"> Nam</span>
+                            </label>
+                            &nbsp; &nbsp;
+                            <label>
+                                <input id="chkNu" name="gioitinh" type="radio" class="ace input-lg" checked /><span class="lbl bigger-120"> Nữ</span>
+                            </label>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <label for="cmbPhongBan" class="label-bold">Phòng ban</label>
+                            <select id="cmbPhongBan" class="selectpicker form-control" data-live-search="true"></select>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <label for="cmbChucVu" class="label-bold">Chức vụ</label>
+                            <select id="cmbChucVu" class="selectpicker form-control" data-live-search="true"></select>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <label for="cmbNND" class="label-bold">Nhóm người dùng</label>
+                            <select id="cmbNND" class="selectpicker form-control" data-live-search="true"></select>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both;">
+                            <div>
+                                <input class="form-control" id="txtUsername" placeholder="Tài khoản" name="txtUsername" type="text" style="float:left;width:45%;" onkeyup="TestError(this.id);">
+                                <input class="form-control" id="txtPassword" placeholder="Mật khẩu" name="txtPassword" type="password" style="float:right;width:54%;" onkeyup="TestError(this.id);">
+                            </div>
+                            <div>
+                                <label id="txtUsername-error" class="label-error alert-danger" for="txtUsername" style="float:left; clear:both;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Tài khoản rỗng!</label>
+                                <label id="txtPassword-error" class="label-error alert-danger" for="txtPassword" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Mật khẩu rỗng!</label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="clear:both;"></div>
+                        <div class="form-group" style="clear:both; text-align:center;">
+                            <button type="button" id="btnLuuNhanvien" onclick="INSERT_NHANVIEN();" class="btn btn-sm btn-info"><i class="ace-icon fa fa-save bigger-110"></i> Tạo Nhân viên</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8 widget-container-col">
+            <div class="widget-box">
+                <div class="widget-header" style="color:#fff; background:#5090C1;">
+                    <h4 class="widget-title">Danh sách nhân viên</h4>
+
+                    <span class="widget-toolbar">
+                        <a href="#" data-action="fullscreen" class="orange2">
+                            <i class="ace-icon fa fa-expand"></i>
+                        </a>
+
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div id="grid_DS_NHANVIEN"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalSua">
+    <div class="modal-dialog" style="width:70%;">
+        <div class="modal-content">
+            <div class="modal-header" style="color:#fff; background-color:#37619C;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CẬP NHẬT THÔNG TIN NHÂN VIÊN</h4>
+            </div>
+            <div class="modal-body" style="overflow:auto;">
+                <div class="widget-body" style="width:50%; float:left; border-right:1px solid #F2F2F2;" ">
+                    <div class=" widget-main">
+                    <div class="form-group" style="clear:both;">
+                        <input type="hidden" id="txtNhanVienId_Upd" name="txtNhanVienId_Upd" />
+                        <input placeholder="Mã nhân viên" class="form-control" id="txtMaNhanVienUpd" name="txtMaNhanVienUpd" type="text" onkeyup="TestError(this.id);">
+                        <label id="txtMaNhanVienUpd-error" class="label-error alert-danger" for="txtMaNhanVienUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Mã nhân viên rỗng!</label>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div>
+                            <input class="form-control" id="txtHoUpd" placeholder="Họ" name="txtHoUpd" type="text" style="float:left;width:45%;">
+                            <input class="form-control" id="txtTenUpd" placeholder="Tên" name="txtTenUpd" type="text" style="float:right;width:54%;">
+                        </div>
+                        <div>
+                            <label id="txtHoUpd-error" class="label-error alert-danger" for="txtHoUpd" style="float:left; clear:both;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Họ rỗng!</label>
+                            <label id="txtTenUpd-error" class="label-error alert-danger" for="txtTenUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Tên rỗng!</label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div class="input-group">
+                            <input class="form-control date-picker" placeholder="Ngày sinh" onkeyup="TestError(this.id);" id="dateNgaySinhUpd" type="text" style="text-align:right;" data-date-format="dd/mm/yyyy" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar bigger-110"></i>
+                            </span>
+                        </div>
+                        <label id="dateNgaySinhUpd-error" class="label-error alert-danger" for="dateNgaySinhUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Ngày sinh rỗng!</label>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div>
+                            <input class="form-control" id="txtSoCMND" placeholder="Số Chứng minh nhân dân" name="txtSoCMND" type="text" style="float:left;width:45%;">
+                            <input class="form-control" id="txtNoiCap" placeholder="Nơi cấp CMND" name="txtNoiCap" type="text" style="float:right;width:54%;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Địa chỉ thường trú" class="form-control" id="txtDiaChiThuongTru" name="txtDiaChiThuongTru" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Địa chỉ tạm trú" class="form-control" id="txtDiaChiTamTru" name="txtDiaChiTamTru" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Email" class="form-control" id="txtEmail" name="txtEmail" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div>
+                            <input class="form-control" id="txtSDTNha" placeholder="Số điện thoại nhà" name="txtSDTNha" type="text" style="float:left;width:45%;text-align:right;">
+                            <input class="form-control" id="txtDiDong" placeholder="Di động" name="txtDiDong" type="text" style="float:right;width:54%;text-align:right;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Nơi sinh" class="form-control" id="txtNoiSinh" name="txtNoiSinh" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Quê quán" class="form-control" id="txtQueQuan" name="txtQueQuan" type="text">
+                    </div>
+
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;text-align:center;">
+                        <label>
+                            <input id="chkNamUpd" name="gioitinhupd" type="radio" class="ace input-lg" /><span class="lbl bigger-120"> Nam</span>
+                        </label>
+                        &nbsp; &nbsp;
+                        <label>
+                            <input id="chkNuUpd" name="gioitinhupd" type="radio" class="ace input-lg" /><span class="lbl bigger-120"> Nữ</span>
+                        </label>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div>
+                            <input class="form-control" id="txtUsernameUpd" placeholder="Tài khoản" name="txtUsernameUpd" type="text" style="float:left;width:45%;" onkeyup="TestError(this.id);">
+                            <input class="form-control" id="txtPasswordUpd" placeholder="Mật khẩu" name="txtPasswordUpd" type="text" style="float:right;width:54%;" onkeyup="TestError(this.id);">
+                        </div>
+                        <div>
+                            <label id="txtUsernameUpd-error" class="label-error alert-danger" for="txtUsernameUpd" style="float:left; clear:both;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Tài khoản rỗng!</label>
+                            <label id="txtPasswordUpd-error" class="label-error alert-danger" for="txtPasswordUpd" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Mật khẩu rỗng!</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-body" style="width:50%; float:left; border-left:1px solid #F2F2F2;">
+                <div class="widget-main">
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Trình độ học vấn" class="form-control" id="txtTrinhDo" name="txtTrinhDo" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <div class="input-group">
+                            <input class="form-control date-picker" placeholder="Ngày vào làm" onkeyup="TestError(this.id);" id="dateNgayVaoLam" type="text" style="text-align:right;" data-date-format="dd/mm/yyyy" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar bigger-110"></i>
+                            </span>
+                        </div>
+                        <label id="dateNgayVaoLam-error" class="label-error alert-danger" for="dateNgayVaoLam" style="float:right;"><i class="ace-icon fa fa-exclamation-triangle red bigger-70"></i>  Ngày vào làm rỗng!</label>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <input placeholder="Mã số thuế" class="form-control" id="txtMaSoThue" name="txtMaSoThue" type="text">
+                    </div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbPhongBanUpd" class="label-bold">Phòng ban</label>
+                        <select id="cmbPhongBanUpd" name="cmbPhongBanUpd" class="selectpicker form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbChucVuUpd" class="label-bold">Chức vụ</label>
+                        <select id="cmbChucVuUpd" cmb="cmbChucVuUpd" class="selectpicker form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbNNDUpd" class="label-bold">Nhóm người dùng</label>
+                        <select id="cmbNNDUpd" name="cmbNNDUpd" class="selectpicker form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbDanToc" class="label-bold">Dân tộc</label>
+                        <select id="cmbDanToc" name="cmbDanToc" class="selectpicker form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbTonGiao" class="label-bold">Tôn giáo</label>
+                        <select id="cmbTonGiao" name="cmbTonGiao" class="selectpicker form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group" style="clear:both;"></div>
+                    <div class="form-group" style="clear:both;">
+                        <label for="cmbTrangThai" class="label-bold">Trạng thái</label>
+                        <select id="cmbTrangThai" name="cmbTrangThai" class="selectpicker form-control" data-live-search="true">
+                            <option value="0">Đã nghỉ</option>
+                            <option value="1">Đang làm</option>
+                            <option value="2">Tạm nghỉ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <label style="float:left;" id="myModalSua-IsSuccess"></label>
+            <button type="button" class="btn btn-sm btn-info" onclick="UPDATE_NHANVIEN()"><i class="ace-icon fa fa-check bigger-70"></i> Cập nhật</button>
+            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="ace-icon fa fa-close bigger-70"></i> Đóng</button>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='../Layout/Admin/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+
+    <script src="~/Scripts/dist/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="~/Layout/Admin/assets/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            // scrollables
+            $('.scrollable').each(function () {
+                var $this = $(this);
+                $(this).ace_scroll({
+                    size: $this.attr('data-size') || 100,
+                    //styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+                });
+            });
+            $('.scrollable-horizontal').each(function () {
+                var $this = $(this);
+                $(this).ace_scroll(
+                  {
+                      horizontal: true,
+                      styleClass: 'scroll-top',//show the scrollbars on top(default is bottom)
+                      size: $this.attr('data-size') || 500,
+                      mouseWheelLock: true
+                  }
+                ).css({ 'padding-top': 12 });
+            });
+
+            $(window).on('resize.scroll_reset', function () {
+                $('.scrollable-horizontal').ace_scroll('reset');
+            });
+
+
+            $('#id-checkbox-vertical').prop('checked', false).on('click', function () {
+                $('#widget-toolbox-1').toggleClass('toolbox-vertical')
+                .find('.btn-group').toggleClass('btn-group-vertical')
+                .filter(':first').toggleClass('hidden')
+                .parent().toggleClass('btn-toolbar')
+            });
+
+            //datepicker plugin
+            //link
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            })
+            //show datepicker when clicking on the icon
+            .next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            //or change it into a date range picker
+            $('.input-daterange').datepicker({ autoclose: true });
+
+            ///////////////////////
+
+            //when a widget is shown/hidden/closed, we save its state for later retrieval
+            $(document).on('shown.ace.widget hidden.ace.widget closed.ace.widget', '.widget-box', function (event) {
+                var widgets = ace.data.get('demo', 'widget-state', true);
+                if (widgets == null) widgets = {}
+
+                var id = $(this).attr('id');
+                widgets[id] = event.type;
+                ace.data.set('demo', 'widget-state', widgets, null, true);
+            });
+
+            (function () {
+                //restore widget order
+                var container_list = ace.data.get('demo', 'widget-order', true);
+                if (container_list) {
+                    for (var container_id in container_list) if (container_list.hasOwnProperty(container_id)) {
+
+                        var widgets_inside_container = container_list[container_id];
+                        if (widgets_inside_container.length == 0) continue;
+
+                        for (var i = 0; i < widgets_inside_container.length; i++) {
+                            var widget = widgets_inside_container[i];
+                            $('#' + widget).appendTo('#' + container_id);
+                        }
+
+                    }
+                }
+
+
+                //restore widget state
+                var widgets = ace.data.get('demo', 'widget-state', true);
+                if (widgets != null) {
+                    for (var id in widgets) if (widgets.hasOwnProperty(id)) {
+                        var state = widgets[id];
+                        var widget = $('#' + id);
+                        if
+							(
+                            (state == 'shown' && widget.hasClass('collapsed'))
+                            ||
+                            (state == 'hidden' && !widget.hasClass('collapsed'))
+                        ) {
+                            widget.widget_box('toggleFast');
+                        }
+                        else if (state == 'closed') {
+                            widget.widget_box('closeFast');
+                        }
+                    }
+                }
+
+
+                $('#main-widget-container').removeClass('invisible');
+
+
+                //reset saved positions and states
+                $('#reset-widgets').on('click', function () {
+                    ace.data.remove('demo', 'widget-state');
+                    ace.data.remove('demo', 'widget-order');
+                    document.location.reload();
+                });
+
+            })();
+
+        });
+    </script>
+}
+
+<script>
+    var Error = false;
+
+    var result = [];
+    var txtArray = [];
+    var txtArrayUpdate = [];
+
+    txtArray.push('txtMaNhanVien', 'txtHo', 'txtTen', 'dateNgaySinh', 'txtUsername', 'txtPassword');
+    txtArrayUpdate.push('txtMaNhanVienUpd', 'dateNgaySinhUpd', 'txtHoUpd', 'txtTenUpd', 'txtUsernameUpd', 'txtPasswordUpd', 'dateNgayVaoLam');
+
+    function Get_DS_PhongBan() {
+        $.getJSON("/Admin/Get_DS_PhongBan")
+        .done(function (data) {
+            $('#cmbPhongBan').empty();
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("<option value=" + item.PHONGBAN_ID + ">" + item.TENPHONGBAN + " </option>").appendTo($('#cmbPhongBan'));
+                $("<option value=" + item.PHONGBAN_ID + ">" + item.TENPHONGBAN + " </option>").appendTo($('#cmbPhongBanUpd'));
+            });
+            $('#cmbPhongBan').selectpicker('refresh');
+            $('#cmbPhongBanUpd').selectpicker('refresh');
+        });
+    }
+
+    function Get_DS_ChucVu() {
+        $.getJSON("/Admin/Get_DS_ChucVu")
+        .done(function (data) {
+            $('#cmbChucVu').empty();
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("<option value=" + item.CHUCVU_ID + ">" + item.TENCHUCVU + " </option>").appendTo($('#cmbChucVu'));
+                $("<option value=" + item.CHUCVU_ID + ">" + item.TENCHUCVU + " </option>").appendTo($('#cmbChucVuUpd'));
+            });
+            $('#cmbChucVu').selectpicker('refresh');
+            $('#cmbChucVuUpd').selectpicker('refresh');
+        });
+    }
+
+    function Get_DS_NND() {
+        $.getJSON("/Admin/Get_DS_NhomNguoiDung")
+        .done(function (data) {
+            $('#cmbNND').empty();
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("<option value=" + item.NHOMNGUOIDUNG_ID + ">" + item.TENNHOMND + " </option>").appendTo($('#cmbNND'));
+                $("<option value=" + item.NHOMNGUOIDUNG_ID + ">" + item.TENNHOMND + " </option>").appendTo($('#cmbNNDUpd'));
+            });
+            $('#cmbNND').selectpicker('refresh');
+            $('#cmbNNDUpd').selectpicker('refresh');
+        });
+    }
+
+    function Get_DS_TONGIAO() {
+        $.getJSON("/Admin/Get_TONGIAO")
+        .done(function (data) {
+            $('#cmbTonGiao').empty();
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("<option value=" + item.TONGIAO_ID + ">" + item.TEN_TONGIAO + " </option>").appendTo($('#cmbTonGiao'));
+            });
+            $('#cmbTonGiao').selectpicker('refresh');
+        });
+    }
+
+    function Get_DS_DANTOC() {
+        $.getJSON("/Admin/Get_DANTOC")
+        .done(function (data) {
+            $('#cmbDanToc').empty();
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("<option value=" + item.DANTOC_ID + ">" + item.TEN_DANTOC + " </option>").appendTo($('#cmbDanToc'));
+            });
+            $('#cmbDanToc').selectpicker('refresh');
+        });
+    }
+
+    function INSERT_NHANVIEN() {
+        ShowHideError(txtArray);
+        Error = ErrorBool(txtArray);
+
+        var GT;
+        if ($("#chkNam").is(":checked")) {
+            GT = 'False';
+        }
+        else {
+            GT = 'True';
+        }
+
+        if (Error == true) {
+            $('#loading').fadeIn();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/DanhMucNhanVien?t=' + Math.random(),
+                data: {
+                    MANHANVIEN: $('#txtMaNhanVien').val(),
+                    HO_NHANVIEN: $('#txtHo').val(),
+                    TEN_NHANVIEN: $('#txtTen').val(),
+                    NGAYSINH: $('#dateNgaySinh').val(),
+                    GIOITINH: GT,
+                    PHONGBAN_ID: $('#cmbPhongBan').val(),
+                    CHUCVU_ID: $('#cmbChucVu').val(),
+                    NHOMNGUOIDUNG_ID: $('#cmbNND').val(),
+                    USERNAME: $('#txtUsername').val(),
+                    PW: $('#txtPassword').val(),
+                    LOAI: 'INSERT'
+                },
+                //async: true,
+                dataType: 'text',
+                success: function (html) {
+                    $('#loading').fadeOut();
+                    if (html == "...") {
+                        $(':input')
+                            .removeAttr('checked')
+                            .removeAttr('selected')
+                            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+                            .val('');
+                        $('#grid_DS_NHANVIEN').data('kendoGrid').dataSource.read();
+                        ShowAlert("Thông báo", 'Tạo Nhân viên thành công!');
+                    }
+                    else {
+                        ShowAlert("Thông báo", html);
+                    }
+
+                },
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    $('#loading').fadeOut();
+                    ShowAlert("Thông báo", err);
+                });
+        }
+    }
+
+    function OnLoadGridNhanVien() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Admin/Get_DS_NHANVIEN",
+                    type: 'GET',
+                    dataType: "json"
+                }
+            },
+            pageSize: 100,
+            schema: {
+                model: {
+                    id: "NHANVIEN_ID",
+                    fields: {
+                        NHANVIEN_ID: { type: "number", editable: false, nullable: true },
+                        NHOMNGUOIDUNG_ID: { type: "number", editable: false, nullable: true },
+                        CHUCVU_ID: { type: "number", editable: false, nullable: true },
+                        PHONGBAN_ID: { type: "number", editable: false, nullable: true },
+                        MANHANVIEN: { type: "string", editable: false, nullable: true },
+                        HO_NHANVIEN: { type: "string", editable: false, nullable: true },
+                        EMAIL_NHANVIEN: { type: "string", editable: false, nullable: true },
+                        GIOITINH: { type: "bool", editable: false, nullable: true },
+                        DIACHI_TAMTRU: { type: "string", editable: false, nullable: true },
+                        USERNAME: { type: "string", editable: false, nullable: true },
+                        PW: { type: "string", editable: false, nullable: true },
+                        ISLOGIN: { type: "bool", editable: false, nullable: true },
+                        LOGIN_TIME: { type: "string", editable: false, nullable: true },
+                        LAST_LOGOUT_TIME: { type: "string", editable: false, nullable: true },
+                        CREATION_DATE: { type: "string", editable: false, nullable: true },
+                        CREATED_BY: { type: "number", editable: false, nullable: true },
+                        LAST_UPDATE_DATE: { type: "string", editable: false, nullable: true },
+                        LAST_UPDATED_BY: { type: "number", editable: false, nullable: true },
+                        CMND_SO: { type: "string", editable: false, nullable: true },
+                        CMND_NOICAP: { type: "string", editable: false, nullable: true },
+                        DANTOC: { type: "number", editable: false, nullable: true },
+                        TONGIAO: { type: "number", editable: false, nullable: true },
+                        DIENTHOAI_NHA: { type: "number", editable: false, nullable: true },
+                        DIENTHOAI_DIDONG: { type: "number", editable: false, nullable: true },
+                        DIACHI_THUONGTRU: { type: "string", editable: false, nullable: true },
+                        TRANGTHAI_LAMVIEC: { type: "number", editable: false, nullable: true },
+                        TRINHDO_VANHOA: { type: "string", editable: false, nullable: true },
+                        NOISINH: { type: "string", editable: false, nullable: true },
+                        QUEQUAN: { type: "string", editable: false, nullable: true },
+                        MASOTHUE: { type: "string", editable: false, nullable: true },
+                        NGAYVAOLAM: { type: "string", editable: false, nullable: true },
+                        NGAYSINH: { type: "string", editable: false, nullable: true },
+                        GT: { type: "string", editable: false, nullable: true },
+                        TENPHONGBAN: { type: "string", editable: false, nullable: true },
+                        TENCHUCVU: { type: "string", editable: false, nullable: true },
+                        TENNHOMND: { type: "string", editable: false, nullable: true },
+                        HOTEN: { type: "string", editable: false, nullable: true }
+                    }
+                }
+            }
+        });
+
+        $("#grid_DS_NHANVIEN").kendoGrid({
+            dataSource: dataSource,
+            noRecords: true,
+            messages: {
+                noRecords: "Không có Nhân viên!"
+            },
+            columns: [
+            {
+                field: "MANHANVIEN",
+                title: "MÃ NV",
+                width: 100,
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                field: "HOTEN",
+                title: "HỌ TÊN",
+                width: 200,
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                field: "TENPHONGBAN",
+                title: "PHÒNG BAN",
+                width: 200,
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                field: "TENCHUCVU",
+                title: "CHỨC VỤ",
+                width: 200,
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                field: "ISLOGIN",
+                title: "ONLINE",
+                width: 80,
+                attributes: { class: "canhgiua" },
+                template: "<img src='../Layout/assets/img/" + "# if (ISLOGIN == true) { #" + "success.png" + "# } else { #" + "cancel.png" + "# } #" + "' style='width:25px;' />",
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            },
+            {
+                width: 80,
+                template: '<a onclick="ShowUpdateNhanVien(\'#= NHANVIEN_ID #\');" class="btn btn-xs btn-info"><i class="ace-icon fa fa-edit bigger-40"></i> SỬA</a>',
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;"
+                }
+            },
+            {
+                width: 80,
+                template: '<a onclick="ShowDeleteNhanVien(\'#= NHANVIEN_ID #\');" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-40"></i> Xóa</a>',
+                attributes: { class: "canhgiua" },
+                headerAttributes: {
+                    style: "text-align: center; vertical-align: middle; font-weight:bold;",
+                }
+            }]
+        }).data("kendoGrid");
+    }
+
+    function ShowUpdateNhanVien(NHANVIEN_ID) {
+        HideError(txtArrayUpdate);
+        var grid_data = $("#grid_DS_NHANVIEN").data("kendoGrid"),
+        data = grid_data.dataSource.data();
+
+        var res = $.grep(data, function (d) {
+            return d.NHANVIEN_ID == NHANVIEN_ID;
+        });
+
+        $('#txtNhanVienId_Upd').val(NHANVIEN_ID);
+        $('#txtMaNhanVienUpd').val(res[0].MANHANVIEN);
+        $('#dateNgaySinhUpd').val(res[0].NGAYSINH);
+        $('#txtHoUpd').val(res[0].HO_NHANVIEN);
+        $('#txtTenUpd').val(res[0].TEN_NHANVIEN);
+        $('#txtUsernameUpd').val(res[0].USERNAME);
+        $('#txtPasswordUpd').val(res[0].PW);
+        $('#dateNgayVaoLam').val(res[0].NGAYVAOLAM);
+        $('#txtSoCMND').val(res[0].CMND_SO);
+        $('#txtNoiCap').val(res[0].CMND_NOICAP);
+        $('#txtDiaChiThuongTru').val(res[0].DIACHI_THUONGTRU);
+        $('#txtDiaChiTamTru').val(res[0].DIACHI_TAMTRU);
+        $('#txtEmail').val(res[0].EMAIL_NHANVIEN);
+        $('#txtSDTNha').val(res[0].DIENTHOAI_NHA);
+        $('#txtDiDong').val(res[0].DIENTHOAI_DIDONG);
+        $('#txtNoiSinh').val(res[0].NOISINH);
+        $('#txtQueQuan').val(res[0].QUEQUAN);
+        $('#txtTrinhDo').val(res[0].TRINHDO_VANHOA);
+        $('#txtMaSoThue').val(res[0].MASOTHUE);
+        $('select[name=cmbPhongBanUpd]').val(res[0].PHONGBAN_ID);
+        $('select[name=cmbChucVuUpd]').val(res[0].CHUCVU_ID);
+        $('select[name=cmbNNDUpd]').val(res[0].NHOMNGUOIDUNG_ID);
+        $('select[name=cmbDanToc]').val(res[0].DANTOC);
+        $('select[name=cmbTonGiao]').val(res[0].TONGIAO);
+        $('select[name=cmbTrangThai]').val(res[0].TRANGTHAI_LAMVIEC);
+        $('#cmbPhongBanUpd').selectpicker('refresh');
+        $('#cmbChucVuUpd').selectpicker('refresh');
+        $('#cmbNNDUpd').selectpicker('refresh');
+        $('#cmbDanToc').selectpicker('refresh');
+        $('#cmbTonGiao').selectpicker('refresh');
+        $('#cmbTrangThai').selectpicker('refresh');
+
+        if (res[0].GIOITINH == false) {
+            $("#chkNamUpd").prop("checked", true);
+
+        }
+        else {
+            $("#chkNuUpd").prop("checked", true);
+        }
+
+        IsSucess('myModalSua', '');
+
+        $('#myModalSua').appendTo("body").modal('show');
+    }
+
+    function UPDATE_NHANVIEN() {
+        ShowHideError(txtArrayUpdate);
+        Error = ErrorBool(txtArrayUpdate);
+
+        if (Error == true) {
+            var GT;
+            if ($("#chkNamUpd").is(":checked")) {
+                GT = 'False';
+            }
+            else {
+                GT = 'True';
+            }
+
+            $('#loading').fadeIn();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/DanhMucNhanVien',
+                data: {
+                    NHANVIEN_ID: $('#txtNhanVienId_Upd').val(),
+                    MANHANVIEN: $('#txtMaNhanVienUpd').val(),
+                    NGAYSINH: $('#dateNgaySinhUpd').val(),
+                    HO_NHANVIEN: $('#txtHoUpd').val(),
+                    TEN_NHANVIEN: $('#txtTenUpd').val(),
+                    USERNAME: $('#txtUsernameUpd').val(),
+                    PW: $('#txtPasswordUpd').val(),
+                    NGAYVAOLAM: $('#dateNgayVaoLam').val(),
+                    CMND_SO: $('#txtSoCMND').val(),
+                    CMND_NOICAP: $('#txtNoiCap').val(),
+                    DIACHI_THUONGTRU: $('#txtDiaChiThuongTru').val(),
+                    DIACHI_TAMTRU: $('#txtDiaChiTamTru').val(),
+                    EMAIL_NHANVIEN: $('#txtEmail').val(),
+                    DIENTHOAI_NHA: $('#txtSDTNha').val(),
+                    DIENTHOAI_DIDONG: $('#txtDiDong').val(),
+                    NOISINH: $('#txtNoiSinh').val(),
+                    QUEQUAN: $('#txtQueQuan').val(),
+                    TRINHDO_VANHOA: $('#txtTrinhDo').val(),
+                    MASOTHUE: $('#txtMaSoThue').val(),
+                    PHONGBAN_ID: $('#cmbPhongBanUpd').val(),
+                    CHUCVU_ID: $('#cmbChucVuUpd').val(),
+                    NHOMNGUOIDUNG_ID: $('#cmbNNDUpd').val(),
+                    DANTOC: $('#cmbDanToc').val(),
+                    TONGIAO: $('#cmbTonGiao').val(),
+                    TRANGTHAI_LAMVIEC: $('#cmbTrangThai').val(),
+                    GIOITINH: GT,
+                    LOAI: 'UPDATE'
+                },
+                //async: true,
+                dataType: 'text',
+                success: function (html) {
+                    $('#loading').fadeOut();
+                    if (html == "...") {
+                        $('#grid_DS_NHANVIEN').data('kendoGrid').dataSource.read();
+                        IsSucess('myModalSua', 'Cập nhật thành công!');
+                    }
+                    else {
+                        IsSucess('myModalSua', html);
+                    }
+                }
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    $('#loading').fadeOut();
+                    IsSucess('myModalSua', err);
+                });
+        }
+    }
+
+    function ShowDeleteNhanVien(NHANVIEN_ID) {
+        $('#NHANVIEN_ID_Del').val(NHANVIEN_ID);
+
+        $('#myModalXoa').appendTo("body").modal('show');
+    }
+
+    function DELETE_NHANVIEN() {
+        $('#myModalXoa').modal('hide');
+        $('#loading').fadeIn();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/DanhMucNhanVien?t=' + Math.random(),
+            data: {
+                NHANVIEN_ID: $('#NHANVIEN_ID_Del').val(),
+                LOAI: 'DELETE'
+            },
+            //async: true,
+            dataType: 'text',
+            success: function (html) {
+                $('#loading').fadeOut();
+                if (html == "...") {
+                    $('#grid_DS_NHANVIEN').data('kendoGrid').dataSource.read();
+                    IsSucess('myModalXoa', 'Xóa thành công!');
+                }
+                else {
+                    IsSucess('myModalXoa', html);
+                }
+            }
+        })
+        .fail(
+            function (jqXHR, textStatus, err) {
+                $('#loading').fadeOut();
+                IsSucess('myModalXoa', err);
+            });
+    }
+
+    $(function () {
+
+        HideError(txtArray);
+
+        $('.selectpicker').selectpicker({
+            size: 10,
+            liveSearchStyle: 'contains'
+        });
+
+        Get_DS_PhongBan();
+        Get_DS_ChucVu();
+        Get_DS_NND();
+        Get_DS_TONGIAO();
+        Get_DS_DANTOC();
+
+        OnLoadGridNhanVien();
+    });
+</script>
