@@ -1,0 +1,7 @@
+D:\Source\Sale\Sale.UTILITIES\bin\Release\Sale.UTILITIES.dll
+D:\Source\Sale\Sale.UTILITIES\bin\Release\Sale.UTILITIES.pdb
+D:\Source\Sale\Sale.UTILITIES\bin\Release\Sale.DAL.dll
+D:\Source\Sale\Sale.UTILITIES\bin\Release\Sale.DAL.pdb
+D:\Source\Sale\Sale.UTILITIES\obj\Release\Sale.UTILITIES.csprojResolveAssemblyReference.cache
+D:\Source\Sale\Sale.UTILITIES\obj\Release\Sale.UTILITIES.dll
+D:\Source\Sale\Sale.UTILITIES\obj\Release\Sale.UTILITIES.pdb
