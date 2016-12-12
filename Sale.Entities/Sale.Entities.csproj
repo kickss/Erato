@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F7C3A167-9EAB-40B8-A7AB-AF934ABDECB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sale.Entities</RootNamespace>
+    <AssemblyName>Sale.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsDM_CHUCVU.cs" />
+    <Compile Include="clsSYS_NHOMNGUOIDUNG_QUYEN.cs" />
+    <Compile Include="clsDM_NHANVIEN.cs" />
+    <Compile Include="clsSYS_NHOMNGUOIDUNG.cs" />
+    <Compile Include="clsSYS_QUYEN.cs" />
+    <Compile Include="clsSYS_NGUOIDUNG.cs" />
+    <Compile Include="clsSYS_LOGIN_SESSIONS.cs" />
+    <Compile Include="clsSYS_DOMAINS.cs" />
+    <Compile Include="clsSYS_DICTIONARY.cs" />
+    <Compile Include="clsDM_QUOCGIA.cs" />
+    <Compile Include="clsDM_TINHTHANH.cs" />
+    <Compile Include="clsDM_QUANHUYEN.cs" />
+    <Compile Include="clsDM_PHUONGXA.cs" />
+    <Compile Include="clsDM_LOPHOC.cs" />
+    <Compile Include="clsDM_PHONGBAN.cs" />
+    <Compile Include="clsDM_HOCVIEN.cs" />
+    <Compile Include="clsDM_GIANGVIEN.cs" />
+    <Compile Include="clsDM_DANTOC.cs" />
+    <Compile Include="clsDM_BIEUTHUE.cs" />
+    <Compile Include="clsAPP_HOCVIEN_DANGKY_LOPHOC.cs" />
+    <Compile Include="clsAPP_HOADON_CHITIET.cs" />
+    <Compile Include="clsAPP_DIEMDANH_LOPHOC.cs" />
+    <Compile Include="clsAPP_HOADON.cs" />
+    <Compile Include="clsDM_GIANGVIEN_LOPHOC_TYLE.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sale.DAL\Sale.DAL.csproj">
+      <Project>{a61fbf0f-826e-4572-aaf7-e0fb8e752b5a}</Project>
+      <Name>Sale.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sale.UTILITIES\Sale.UTILITIES.csproj">
+      <Project>{2f1c1b60-d744-4e44-b208-c1633feb675a}</Project>
+      <Name>Sale.UTILITIES</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

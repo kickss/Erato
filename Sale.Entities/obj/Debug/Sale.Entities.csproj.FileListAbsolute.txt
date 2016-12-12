@@ -1,0 +1,9 @@
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.Entities.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.Entities.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.DAL.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.UTILITIES.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.DAL.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\bin\Debug\Sale.UTILITIES.pdb
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\obj\Debug\Sale.Entities.csprojResolveAssemblyReference.cache
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\obj\Debug\Sale.Entities.dll
+E:\EXT_CUS\ERATO_WEB\Sale_Erato\Sale\Sale.Entities\obj\Debug\Sale.Entities.pdb
