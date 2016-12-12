@@ -1,0 +1,76 @@
+﻿/* Set width on the form input elements since they're 100% wide by default */
+
+
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.divmain{
+   
+}
+
+table tr td,table tr th{
+    margin:0px !important;
+    padding:0px !important;
+}
+table tr th{
+    padding:3px !important;
+}
+table tr td{
+    padding:2px !important;
+}
+
+.modal-header{
+    background-color:#1B88C8;
+    color:#FFF;
+    border-radius:0px;
+}
+.modal-header h4{margin:3px !important;}
+.modal-body{
+    padding:30px 10px !important;
+}
+.modal-content{
+  border-radius: 0px;
+  width: 700px;}
+thead {
+    background-color:#CCC;
+}
+thead tr th{
+        text-align:center;
+
+}
+
+.title_topicdisplay {
+    color: #074C95;
+    text-align: justify;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration:none;
+}
