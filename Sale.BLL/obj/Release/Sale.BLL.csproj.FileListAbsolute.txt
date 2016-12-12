@@ -1,0 +1,9 @@
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.BLL.dll
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.BLL.pdb
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.DAL.dll
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.UTILITIES.dll
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.DAL.pdb
+D:\Source\Sale\Sale.BLL\bin\Release\Sale.UTILITIES.pdb
+D:\Source\Sale\Sale.BLL\obj\Release\Sale.BLL.csprojResolveAssemblyReference.cache
+D:\Source\Sale\Sale.BLL\obj\Release\Sale.BLL.dll
+D:\Source\Sale\Sale.BLL\obj\Release\Sale.BLL.pdb
