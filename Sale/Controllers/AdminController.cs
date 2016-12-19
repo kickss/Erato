@@ -323,33 +323,42 @@ namespace Sale.Controllers
          {
              Int32 NHOMNGUOIDUNG_ID = Int32.Parse(Request["NHOMNGUOIDUNG_ID"].ToString());
              string quyenTemp = Request["QUYEN"].ToString();
-             string[] dsquyen = quyenTemp.Split(',');
+            bool IsSuccess = false;
+            DataAccess m_Dal = new DataAccess();
+            clsSYS_NHOMNGUOIDUNG_QUYEN objNhomNguoiDung_Quyen = new clsSYS_NHOMNGUOIDUNG_QUYEN(m_Dal);
+            if (quyenTemp == "null")
+            {
+                m_Dal.BeginTrans(IsolationLevel.ReadCommitted);
+                IsSuccess = objNhomNguoiDung_Quyen.DeleteQuyenByNhomNguoiDung(NHOMNGUOIDUNG_ID);
+            }
+            else
+            {
+                string[] dsquyen = quyenTemp.Split(',');
 
-             DataAccess m_Dal = new DataAccess();
-             clsSYS_NHOMNGUOIDUNG_QUYEN objNhomNguoiDung_Quyen = new clsSYS_NHOMNGUOIDUNG_QUYEN(m_Dal);
-             m_Dal.BeginTrans(IsolationLevel.ReadCommitted);
-             bool IsSuccess = objNhomNguoiDung_Quyen.DeleteQuyenByNhomNguoiDung(NHOMNGUOIDUNG_ID);
-             if (IsSuccess)
-             {
-                 for (int i = 0; i < dsquyen.Length; i++)
-                 {
-                     objNhomNguoiDung_Quyen.NHOMNGUOIDUNG_ID = NHOMNGUOIDUNG_ID;
-                     objNhomNguoiDung_Quyen.QUYEN_ID = Int32.Parse(dsquyen[i]);
-                     IsSuccess = objNhomNguoiDung_Quyen.Add();
-                     if (!IsSuccess)
-                         break;
-                 }
-             }
-             if (IsSuccess)
-             {
-                 m_Dal.CommitTrans(true);
-                 return Content("...");
-             }
-             else
-             {
-                 m_Dal.AbortTrans();
-                 return Content("Xóat nhóm người dùng thất bại!");
-             }
+                m_Dal.BeginTrans(IsolationLevel.ReadCommitted);
+                IsSuccess = objNhomNguoiDung_Quyen.DeleteQuyenByNhomNguoiDung(NHOMNGUOIDUNG_ID);
+                if (IsSuccess)
+                {
+                    for (int i = 0; i < dsquyen.Length; i++)
+                    {
+                        objNhomNguoiDung_Quyen.NHOMNGUOIDUNG_ID = NHOMNGUOIDUNG_ID;
+                        objNhomNguoiDung_Quyen.QUYEN_ID = Int32.Parse(dsquyen[i]);
+                        IsSuccess = objNhomNguoiDung_Quyen.Add();
+                        if (!IsSuccess)
+                            break;
+                    }
+                }
+            }
+            if (IsSuccess)
+            {
+                m_Dal.CommitTrans(true);
+                return Content("...");
+            }
+            else
+            {
+                m_Dal.AbortTrans();
+                return Content("Phân quyền thất bại!");
+            }
          }
 
          public JsonResult Get_DS_NhomNguoiDung()
@@ -850,60 +859,7 @@ namespace Sale.Controllers
             return Json(sql.ToList(), JsonRequestBehavior.AllowGet);
         }
         #endregion
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region "Tỉnh, Thành phố"
-        public JsonResult Get_PROVINCE()
-        {
-            clsDM_TINHTHANH objTinhThanh = new clsDM_TINHTHANH();
-            DataTable _tbldsprovince = objTinhThanh.GetAll();
-            var sql = (from row in _tbldsprovince.AsEnumerable()
-                       select new
-                       {
-                           PROVINCE_ID = row.Field<string>("PROVINCE_ID"),
-                           PROVINCE_NAME = row.Field<string>("PROVINCE_NAME"),
-                           PROVINCE_TYPE = row.Field<string>("PROVINCE_TYPE")
-                       }).AsQueryable();
-            return Json(sql.ToList(), JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region "Quận, huyện"
-        public JsonResult Get_District_By_Province()
-        {
-            clsDM_QUANHUYEN objQuanHuyen = new clsDM_QUANHUYEN();
-            string PROVINCE_ID = Request["PROVINCE_ID"];
-            DataTable _tbldsdistrict = objQuanHuyen.GetQuanHuyenByTinhThanh(PROVINCE_ID);
-            var sql = (from row in _tbldsdistrict.AsEnumerable()
-                       select new
-                       {
-                           DISTRICT_ID = row.Field<string>("DISTRICT_ID"),
-                           DISTRICT_NAME = row.Field<string>("DISTRICT_NAME"),
-                           DISTRICT_TYPE = row.Field<string>("DISTRICT_TYPE"),
-                           PROVINCE_ID = row.Field<string>("PROVINCE_ID")
-                       }).AsQueryable();
-            return Json(sql.ToList(), JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region "Phường, xã"
-        public JsonResult Get_Ward_By_District()
-        {
-            clsDM_PHUONGXA objPhuongXa = new clsDM_PHUONGXA();
-            string DISTRICT_ID = Request["DISTRICT_ID"];
-            DataTable _tbldsward = objPhuongXa.GetPhuongXaByQuanHuyen(DISTRICT_ID);
-            var sql = (from row in _tbldsward.AsEnumerable()
-                       select new
-                       {
-                           WARD_ID = row.Field<string>("WARD_ID"),
-                           WARD_NAME = row.Field<string>("WARD_NAME"),
-                           WARD_TYPE = row.Field<string>("WARD_TYPE"),
-                           DISTRICT_ID = row.Field<string>("DISTRICT_ID")
-                       }).AsQueryable();
-            return Json(sql.ToList(), JsonRequestBehavior.AllowGet);
-        }
-        #endregion
 
-         
         #endregion
 
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]

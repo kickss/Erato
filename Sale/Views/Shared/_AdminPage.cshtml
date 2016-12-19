@@ -461,7 +461,7 @@
                             <b class="arrow"></b>
                             <ul class="submenu">
                                 @{
-                                    DataRow[] drMenu = _tb.Select("QUYEN_CHA_ID = " + rnhom["QUYEN_ID"], "STT");
+                                    DataRow[] drMenu = _tb.Select("QUYEN_CHA_ID = " + rnhom["QUYEN_ID"] + " AND ENABLE = true", "STT");
                                     foreach (DataRow rChild in drMenu)
                                     {
                                         <li class=""><a href="@rChild["DUONGDAN"].ToString()"><i class="menu-icon fa fa-caret-right"></i>@Html.Raw(rChild["TENQUYEN"].ToString())</a><b class="arrow"></b></li>

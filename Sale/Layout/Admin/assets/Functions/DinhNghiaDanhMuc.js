@@ -314,10 +314,10 @@ function UpdateMenu() {
                     Get_Menu_Cha();
                     $('#myModalSua').modal('hide');
                     $('#grid_DS_MENU').data('kendoGrid').dataSource.read();
-                    ShowAlert("Thông báo", 'Cập nhật Menu thành công!');
+                    IsSucess('myModalSua', 'Cập nhật thành công!');
                 }
                 else {
-                    ShowAlert("Thông báo", html);
+                    IsSucess('myModalSua', html);
                 }
 
             },
@@ -381,10 +381,10 @@ function XoaMenu() {
                 $('#loading').fadeOut();
                 Get_Menu_Cha();
                 $('#grid_DS_MENU').data('kendoGrid').dataSource.read();
-                ShowAlert("Thông báo", 'Xóa Menu thành công!');
+                IsSucess('myModalXoa', 'Xóa thành công!');
             }
             else {
-                ShowAlert("Thông báo", html);
+                IsSucess('myModalXoa', html);
             }
 
         },

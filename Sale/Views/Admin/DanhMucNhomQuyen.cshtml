@@ -574,31 +574,31 @@
     }
 
     function updateQuyen() {
-        $('#loading').fadeIn();
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/UpdateQuyen?t=' + Math.random(),
-            data: {
-                NHOMNGUOIDUNG_ID: $('#cmbNhomQuyen').val(),
-                QUYEN: $('[name="duallistbox_quyen[]"]').val().join()
-            },
-            //async: true,
-            dataType: 'text',
-            success: function (html) {
-                $('#loading').fadeOut();
-                if (html == "...") {
-                    ShowAlert("Thông báo", 'Cập nhật Quyền thành công!');
-                }
-                else {
-                    ShowAlert("Thông báo", html);
-                }
-            },
-        })
-        .fail(
-            function (jqXHR, textStatus, err) {
-                $('#loading').fadeOut();
-                ShowAlert("Thông báo", err);
-            });
+            $('#loading').fadeIn();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/UpdateQuyen?t=' + Math.random(),
+                data: {
+                    NHOMNGUOIDUNG_ID: $('#cmbNhomQuyen').val(),
+                    QUYEN: $('[name="duallistbox_quyen[]"]').val() != null ? $('[name="duallistbox_quyen[]"]').val().join() : 'null'
+                },
+                //async: true,
+                dataType: 'text',
+                success: function (html) {
+                    $('#loading').fadeOut();
+                    if (html == "...") {
+                        ShowAlert("Thông báo", 'Cập nhật Quyền thành công!');
+                    }
+                    else {
+                        ShowAlert("Thông báo", html);
+                    }
+                },
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    $('#loading').fadeOut();
+                    ShowAlert("Thông báo", err);
+                });
     }
 
     $(function () {
